@@ -1,69 +1,30 @@
 const express = require('express')
 
+
+
 const app = express()
 
-// app.use((req,res) => {
-//     res.send("Hello from rakesh server ")
-// })
-
-
-// app.use('/data',(req,res) => {
-//     res.json({name: "Rakesh", age: 24, city: "Bangalore"})
-// })  
-
-// app.use('/hello/3', (req,res) => {
-//     res.send('hello are three')
-// })
+const {adminAuth, userAuth} = require('./middleware/auth')
+app.use(adminAuth)
+app.use(userAuth)
 
 
 
-// app.use('/hello', (req,res) => {
-//     res.send("Hello from /hello endpoint")
-// })
+app.get('/post' , userAuth,(req,res) => {
+    res.send('user was upload a post ')
+})
 
+app.get('/admin/getAlldata', adminAuth,(req,res) => {
+    res.send('all data deleted')
+})
 
-// app.use('/xyz', (req,res)=> {
-//     res.send('some xyz are there')
-// })
-// app.use('/',(req,res) => {
-//     res.send("Hello from Rakesh server at root endpoint")
+app.post('/Admin/login',(req,res) => {
+    res.send('user logged in')
+})
 
-
-// })/
-
-
-// app.get('/',(req,res) => {
-//     res.send("Hello from Rakesh server at root endpoint")
-// })
-
-// app.get('/data',(req,res) => {
-//     res.json({name: "Rakesh", age: 24, city: "Bangalore"})
-// })
-
-// app.post('/data',(req,res) => {
-//     res.json({message: "This is a POST request at /data endpoint"})
-// })
-
-// app.put('/data',(req,res) => {
-//     res.json({message: "This is a PUT request at /data endpoint"})
-// })
-
-// app.delete('/data',(req,res) => {
-//     res.json({message: "This is a DELETE request at /data endpoint"})
-// })
-// app.patch('/data',(req,res) => {
-//     res.json({message: "This is a PATCH request at /data endpoint"})
-// })
-
-app.use('/user',(req,res, next) => {
-    //res.send('1 Response!')
-    // console.log('This is user endpoint')
-    next()
-},(
-req,res) => {
-    res.send('2nd response!')
-}
- )
+app.get('/Admin', (res,req) => {
+    res.send('user data')
+})
 
 
 app.listen(3000,() => {
